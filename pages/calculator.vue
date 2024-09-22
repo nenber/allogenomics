@@ -87,7 +87,6 @@ const form = ref({
   run_name: "",
 
   ns: false,
-  // ws: false,
   full: true,
   pairRecipientFile: null,
   pairDonorFile: null,
@@ -96,11 +95,50 @@ const form = ref({
   pair: "",
 });
 watch(form, (newForm) => {
-  console.log("new form", newForm);
+  //console.log("new form", newForm);
 });
 
-const handleSubmitClick = (f) => {
-  console.log("submit", form);
+const handleSubmitClick = async (f) => {
+  const formData = new FormData();
+
+  formData.append("run_name", form.value.run_name);
+  formData.append("is_pair", form.value.is_pair.toString());
+  formData.append(
+    "transplantation_type",
+    form.value.transplantation_type.toString()
+  );
+  formData.append("min_dp", form.value.min_dp.toString());
+  formData.append("max_dp", form.value.max_dp.toString());
+  formData.append("min_ad", form.value.min_ad.toString());
+  formData.append("homozigosity_thr", form.value.homozigosity_thr.toString());
+  formData.append("gnomad_af", form.value.gnomad_af.toString());
+  formData.append("min_gq", form.value.min_gq.toString());
+  formData.append("base_length", form.value.base_length.toString());
+
+  formData.append("ns", form.value.ns.toString());
+  formData.append("full", form.value.full.toString());
+  formData.append("pairRecipientFile", form.value.pairRecipientFile);
+  formData.append("pairDonorFile", form.value.pairDonorFile);
+  formData.append("cohortMergedFile", form.value.cohortMergedFile);
+  formData.append(
+    "cohortDonorRecipientListFile",
+    form.value.cohortDonorRecipientListFile
+  );
+  formData.append("pair", form.value.pair);
+
+  //console.log(formData);
+  console.log("sending form", formData.values());
+
+  try {
+    const response = await fetch("/api/pipeline", {
+      method: "POST",
+      body: formData,
+    });
+    const result = await response.json();
+    console.log(result);
+  } catch (error) {
+    console.error("Error uploading file:", error);
+  }
   // Optionally, you can automatically move to the next step here if needed
   // next();
 };
