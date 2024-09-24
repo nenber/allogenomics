@@ -1,32 +1,12 @@
-
 <template>
   <div class="page-container">
     <!-- Stepper at the top center -->
-    <el-row
-      justify="center"
-      class="stepper-container"
-    >
-      <el-steps
-        :active="active"
-        finish-status="success"
-        style="min-width: 60%;"
-      >
-        <el-step
-          title="Data"
-          description="Pair or cohort"
-        />
-        <el-step
-          title="Upload"
-          description="Upload required files"
-        />
-        <el-step
-          title="Transplantation"
-          description="HSCT or SOT"
-        />
-        <el-step
-          title="Parameters"
-          description="Submit and get results"
-        />
+    <el-row justify="center" class="stepper-container">
+      <el-steps :active="active" finish-status="success" style="min-width: 60%">
+        <el-step title="Data" description="Pair or cohort" />
+        <el-step title="Upload" description="Upload required files" />
+        <el-step title="Transplantation" description="HSCT or SOT" />
+        <el-step title="Parameters" description="Submit and get results" />
       </el-steps>
     </el-row>
 
@@ -45,15 +25,10 @@
     <!-- Buttons centered at the bottom -->
     <el-row class="stepper-container-bottom">
       <div class="button-group">
-        <el-button
-          v-if="active > 0"
-          @click="returnStep"
-        >Return</el-button>
-        <el-button
-          v-if="active === 1 "
-          type="primary"
-          @click="next"
-        >Next step</el-button>
+        <el-button v-if="active > 0" @click="returnStep">Return</el-button>
+        <el-button v-if="active === 1" type="primary" @click="next"
+          >Next step</el-button
+        >
       </div>
     </el-row>
   </div>
@@ -138,6 +113,7 @@ const handleSubmitClick = async (f) => {
   formData.append("pairRecipientFile", form.value.pairRecipientFile);
   formData.append("pairDonorFile", form.value.pairDonorFile);
   formData.append("cohortMergedFile", form.value.cohortMergedFile);
+  formData.append("sample", form.value.sample);
   formData.append(
     "cohortDonorRecipientListFile",
     form.value.cohortDonorRecipientListFile
