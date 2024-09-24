@@ -21,6 +21,7 @@ console.log(formData);
   let cohortMergedFile = null
   let cohortDonorRecipientListFile = null
   let pair = ""
+  let sample = false
   // Objet pour stocker les valeurs des champs de données
   const formValues = {}
 

@@ -32,7 +32,6 @@
               style="color: black;vertical-align: middle"
               size="2em"
             />
-
           </a>
         </el-menu-item>
         <el-menu-item
@@ -43,7 +42,6 @@
             Home
           </NuxtLink>
         </el-menu-item>
-
         <el-menu-item
           index="2"
           class="desktop-menu-item"
@@ -71,7 +69,7 @@
         <el-button
           style="margin-right: 12px;"
           class="hamburger-btn"
-          @click="drawer = true"
+          @click="toggleDrawer"
         >
           <el-icon>
             <svg
@@ -89,7 +87,7 @@
     </header>
 
     <el-drawer
-      v-model="drawer"
+      v-model="drawerVisible"
       direction="rtl"
       size="80%"
     >
@@ -103,13 +101,21 @@
             Home
           </NuxtLink>
         </el-menu-item>
-        <el-menu-item index="2">Publications</el-menu-item>
+        <el-menu-item index="2">
+          <NuxtLink to="/publications">
+            Publications
+          </NuxtLink>
+        </el-menu-item>
         <el-menu-item index="3">
           <NuxtLink to="/contact">
             Contact
           </NuxtLink>
         </el-menu-item>
-        <el-menu-item index="4">About</el-menu-item>
+        <el-menu-item index="4">
+          <NuxtLink to="/about">
+            About
+          </NuxtLink>
+        </el-menu-item>
       </el-menu>
     </el-drawer>
 
@@ -120,24 +126,66 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
-import { Menu } from "@element-plus/icons-vue";
+import { ref, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
-const activeIndex = ref("1");
-const drawer = ref(false);
+const route = useRoute();
+const router = useRouter();
 
-const handleSelect = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-  drawer.value = false; // Close drawer when an item is selected
+const activeIndex = ref(getActiveIndex(route.path));
+
+watch(route, (newRoute) => {
+  activeIndex.value = getActiveIndex(newRoute.path);
+});
+
+const drawerVisible = ref(false);
+
+const handleSelect = (key: string, _keyPath: string[]) => {
+  activeIndex.value = key;
+  switch (key) {
+    case "1":
+      router.push("/");
+      break;
+    case "2":
+      router.push("/publications");
+      break;
+    case "3":
+      router.push("/contact");
+      break;
+    case "4":
+      router.push("/about");
+      break;
+  }
+  drawerVisible.value = false; // Close drawer when an item is selected
 };
+
+const toggleDrawer = () => {
+  drawerVisible.value = !drawerVisible.value;
+};
+
+function getActiveIndex(path: string): string {
+  switch (path) {
+    case "/":
+      return "1";
+    case "/publications":
+      return "2";
+    case "/contact":
+      return "3";
+    case "/about":
+      return "4";
+    default:
+      return "1";
+  }
+}
 </script>
+
 
 <style scoped>
 .layout-container {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* S'assure que le conteneur prend toute la hauteur de la fenêtre */
-  overflow-y: auto; /* Active le défilement si nécessaire */
+  height: 100vh;
+  overflow-y: auto;
 }
 
 header {
@@ -148,13 +196,13 @@ header {
 
 .el-menu-demo {
   display: flex;
-  justify-content: center; /* Centre les éléments horizontalement */
+  justify-content: center;
   align-items: center;
-  width: 100%; /* Assure que le menu prend toute la largeur du conteneur */
+  width: 100%;
 }
 
 .el-menu-demo .el-menu-item {
-  margin: 0 15px; /* Ajoute un espace autour des éléments du menu */
+  margin: 0 15px;
 }
 
 .menu-title {
@@ -171,7 +219,7 @@ header {
 
 main {
   flex-grow: 1;
-  overflow-y: auto; /* Permet le défilement du contenu principal */
+  overflow-y: auto;
 }
 
 footer {

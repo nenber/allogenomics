@@ -61,6 +61,7 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from "vue";
+import { ElMessage, ElNotification } from "element-plus";
 
 import chooseContent from "@/components/steps/choose.vue";
 import pairContent from "@/components/steps/pair.vue";
@@ -77,13 +78,13 @@ const currentStepComponent = computed(() => stepComponents[active.value]);
 const form = ref({
   is_pair: true,
   transplantation_type: true,
-  min_dp: null,
-  max_dp: null,
-  min_ad: null,
-  homozigosity_thr: null,
-  gnomad_af: null,
-  min_gq: null,
-  base_length: null,
+  min_dp: 20,
+  max_dp: 400,
+  min_ad: 5,
+  homozigosity_thr: 0.8,
+  gnomad_af: 0.01,
+  min_gq: 20,
+  base_length: 3,
   run_name: "",
 
   ns: false,
@@ -93,12 +94,29 @@ const form = ref({
   cohortMergedFile: null,
   cohortDonorRecipientListFile: null,
   pair: "",
+  sample: false,
 });
 watch(form, (newForm) => {
   //console.log("new form", newForm);
 });
 
 const handleSubmitClick = async (f) => {
+  if (form.value.sample == false) {
+    if (
+      (!form.value.pairDonorFile && !form.value.pairRecipientFile) ||
+      (!form.value.cohortMergedFile && !form.value.cohortDonorRecipientListFile)
+    ) {
+      ElNotification({
+        title: "Error",
+        dangerouslyUseHTMLString: true,
+        message: `All files are required to run the pipeline`,
+        type: "error",
+        position: "bottom-right",
+      });
+      return;
+    }
+  }
+
   const formData = new FormData();
 
   formData.append("run_name", form.value.run_name);

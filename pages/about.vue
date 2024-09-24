@@ -27,7 +27,7 @@
                 alt="Team member avatar"
               />
               <h3>{{ member.name }}</h3>
-              <p>{{ member.position }}</p>
+              <!-- <p>{{ member.position }}</p> -->
               <p>{{ member.affiliation }}</p>
             </el-card>
           </el-col>
@@ -68,31 +68,26 @@
 const teamMembers = [
   {
     name: "Adèle Dhuyser",
-    position: "Co-first author",
     affiliation: "CHRU de Nancy & Université de Lorraine",
     avatar: "/api/placeholder/150/150",
   },
   {
     name: "Pierre Delaugère",
-    position: "Co-first author",
     affiliation: "Sorbonne Université",
     avatar: "/img/team/pierre-delaugere.jpg",
   },
   {
     name: "Laurent Mesnard",
-    position: "Co-last author",
     affiliation: "Sorbonne Université & AP-HP",
     avatar: "/img/team/laurent-mesnard.jpg",
   },
   {
     name: "Hugues Richard",
-    position: "Co-last author",
     affiliation: "Sorbonne Université & Robert Koch Institut",
     avatar: "/img/team/hugues-richard.png",
   },
   {
     name: "Alice Aarnink",
-    position: "Team Member",
     affiliation: "CHRU de Nancy & Université de Lorraine",
     avatar: "/img/team/alice-aarnink.jpg",
   },

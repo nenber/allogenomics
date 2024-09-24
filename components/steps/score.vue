@@ -72,19 +72,19 @@
             :max="1"
             :step="0.01"
             name="homozigosity_thr"
-            placeholder="HOMOZIGOSITY_THR"
+            placeholder="HOMOZYGOSITY_THR"
           />
         </el-form-item>
 
         <el-form-item
-          label="GnomAD allele frequency threshold"
+          label="GnomADe allele frequency threshold"
           prop="gnomad_af"
         >
           <template #label>
             <span>
-              GnomAD allele frequency threshold
+              GnomADe allele frequency threshold
               <el-tooltip
-                content="GnomAD (Genome Aggregation Database) allele frequency threshold. Used to filter variants based on their prevalence in the general population."
+                content="GnomADe (Genome Aggregation Database) allele frequency threshold. Used to filter variants based on their prevalence in the general population."
                 placement="top"
               >
                 <el-icon class="info-icon"><info-filled /></el-icon>
@@ -95,7 +95,7 @@
             v-model="form.gnomad_af"
             :min="0"
             :max="1"
-            :step="0.01"
+            :step="0.00001"
             name="gnomad_af"
             placeholder="GNOMAD_AF"
           />

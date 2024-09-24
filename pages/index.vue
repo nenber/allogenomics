@@ -8,27 +8,30 @@
           </h2>
         </el-row>
         <el-row class="carousel-container">
-
           <el-carousel
+            v-if="carouselItems && carouselItems.length"
             :interval="5000"
             arrow="hover"
             class="full-width-carousel"
-            style="height: 150px;"
+            height="300px"
             indicator-position="outside"
           >
             <el-carousel-item
-              v-for="item in items"
-              :key="item"
+              v-for="item in carouselItems"
+              :key="item.id"
             >
-              <p style="padding-left: 75px;padding-right: 75px;">{{ item }}</p>
-
-              <!-- <img
-                  :src="item"
-                  alt="Carousel Image"
-                  class="carousel-image"
-                > -->
+              <div class="carousel-content">
+                <h3 style="line-height: auto;">{{ item.title }}</h3>
+                <p class="authors">{{ item.authors.join(', ') }}</p>
+                <p class="date">{{ item.date}}</p> <!-- Affiche la date -->
+                <el-button
+                  type="primary"
+                  @click="openArticle(item.link)"
+                >Read Publication</el-button>
+              </div>
             </el-carousel-item>
           </el-carousel>
+          <p v-else>Loading carousel items...</p>
         </el-row>
         <el-image
           style="height: 500px;width: 100%;"
@@ -142,6 +145,28 @@
 const appConfig = useAppConfig();
 import type { ImageProps } from "element-plus";
 
+const carouselItems = ref();
+const error = ref();
+try {
+  const { data, error: fetchError } = await useAsyncData("carouselItems", () =>
+    queryContent("/publications").find()
+  );
+
+  if (fetchError.value) {
+    throw new Error(fetchError.value.message);
+  }
+  console.log("data", data.value);
+
+  carouselItems.value = data.value![0].body;
+  console.log("Loaded carousel items:", carouselItems.value);
+} catch (e) {
+  error.value = e;
+  console.error("Error loading carousel items:", e);
+}
+
+function openArticle(link) {
+  window.open(link, "_blank");
+}
 const fits = [
   "fill",
   "contain",
@@ -188,18 +213,9 @@ const alumniCollaborators = reactive([
   {
     name: "Pierre Delaugere",
     image: "/img/team/pierre-delaugere.jpg",
-    description: "PhD: bioinformatician",
+    description: "Bioinformatician",
   },
 ]);
-
-const items = [
-  "Lorem ipsum odor amet, consectetuer adipiscing elit. Condimentum metus eget mollis justo enim molestie porta enim. Platea efficitur a habitasse sem torquent? Sociosqu nisi morbi praesent tempor adipiscing convallis. Nascetur interdum torquent porta aliquet ad congue augue.",
-  "Lorem ipsum odor amet, consectetuer adipiscing elit. Condimentum metus eget mollis justo enim molestie porta enim. Platea efficitur a habitasse sem torquent? Sociosqu nisi morbi praesent tempor adipiscing convallis. Nascetur interdum torquent porta aliquet ad congue augue.",
-  "Lorem ipsum odor amet, consectetuer adipiscing elit. Condimentum metus eget mollis justo enim molestie porta enim. Platea efficitur a habitasse sem torquent? Sociosqu nisi morbi praesent tempor adipiscing convallis. Nascetur interdum torquent porta aliquet ad congue augue.",
-  "Lorem ipsum odor amet, consectetuer adipiscing elit. Condimentum metus eget mollis justo enim molestie porta enim. Platea efficitur a habitasse sem torquent? Sociosqu nisi morbi praesent tempor adipiscing convallis. Nascetur interdum torquent porta aliquet ad congue augue.",
-];
-
-const carouselRef = ref();
 </script>
 
 <style>
@@ -272,6 +288,7 @@ body {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+  height: auto;
 }
 
 .full-width-carousel {
@@ -392,5 +409,32 @@ body {
   .get-started-button {
     font-size: 1rem;
   }
+}
+.carousel-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.carousel-content h3 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.carousel-content .authors {
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.carousel-content .abstract {
+  margin-bottom: 20px;
+  /*max-height: 100px;*/
+  overflow-y: auto;
+}
+.el-carousel__item h3 {
+  line-height: normal;
 }
 </style>
