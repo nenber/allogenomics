@@ -4,22 +4,72 @@
       <el-col :span="18">
         <h1 class="about-us__title">About AlloPipe</h1>
         <el-divider />
+        <el-alert
+          :title="''"
+          type="success"
+          :closable="false"
+          class="github-alert"
+        >
+          <el-row
+            class="github-section"
+            align="middle"
+            :gutter="20"
+          >
+            <el-col
+              :span="4"
+              class="icon-col"
+            >
+              <Icon
+                name="uil:github"
+                style="color: grey"
+                size="2em"
+              />
+            </el-col>
+            <el-col :span="20">
+              <div class="text-wrapper">
+                <strong>We are open source!</strong>
+              </div>
+              <div class="text-wrapper single-line">
+                <span>AlloPipe is available from</span>
+                <a
+                  href="https://github.com/huguesrichard/Allopipe"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="github-link"
+                >https://github.com/huguesrichard/Allopipe</a>
+              </div>
+            </el-col>
+          </el-row>
+        </el-alert>
         <p class="about-us__description">
           AlloPipe provides new insights in alloreactivity and related immune
           processes. Our tool offers potential for improving donor/recipient
           matching and predicting alloreactive processes in transplantation.
         </p>
 
-        <h2 class="about-us__subtitle">Our Mission</h2>
-        <p>
+        <p class="about-us__description">
           Our mission is to enhance transplantation outcomes by developing
           innovative tools for better donor/recipient matching and personalized
           immunosuppressive therapies.
         </p>
-
+        <h2 class="about-us__subtitle">AlloPipe Features</h2>
+        <el-timeline>
+          <el-timeline-item
+            size="large"
+            v-for="feature in allopipeFeatures"
+            :key="feature.title"
+            :timestamp="feature.title"
+          >
+            {{ feature.description }}
+          </el-timeline-item>
+        </el-timeline>
         <h2 class="about-us__subtitle">Our Team</h2>
         <el-row :gutter="20">
-          <el-col :span="8" v-for="member in teamMembers" :key="member.name">
+          <el-col
+            :span="8"
+            v-for="member in teamMembers"
+            :key="member.name"
+          >
             <el-card class="team-member">
               <img
                 :src="member.avatar"
@@ -33,18 +83,7 @@
           </el-col>
         </el-row>
 
-        <h2 class="about-us__subtitle">AlloPipe Features</h2>
-        <el-timeline>
-          <el-timeline-item
-            v-for="feature in allopipeFeatures"
-            :key="feature.title"
-            :timestamp="feature.title"
-          >
-            {{ feature.description }}
-          </el-timeline-item>
-        </el-timeline>
-
-        <h2 class="about-us__subtitle">Our Research</h2>
+        <!-- <h2 class="about-us__subtitle">Our Research</h2> -->
         <!-- <p>
           AlloPipe has been tested on a donor/recipient cohort of kidney transplantation (n=53 pairs), showing that nsSNP quantification within the pair is correlated to graft's chronic rejection. We are currently processing exomes of genoidentical (n=71) and haploidentical (n=40) pairs in haematopoietic stem cell transplantation.
         </p>
@@ -52,13 +91,6 @@
           Our analyses can also be extended to constitutional and somatic samples in the context of tumoral processes, providing clues for the identification of specific minor histocompatibility antigens.
         </p> -->
 
-        <el-alert
-          title="AlloPipe is open source!"
-          type="success"
-          description="AlloPipe is available from https://github.com/huguesrichard/Allopipe"
-          :closable="false"
-          show-icon
-        />
       </el-col>
     </el-row>
   </div>
@@ -67,14 +99,19 @@
 <script setup>
 const teamMembers = [
   {
-    name: "Adèle Dhuyser",
-    affiliation: "CHRU de Nancy & Université de Lorraine",
-    avatar: "/api/placeholder/150/150",
+    name: "Hugues Richard",
+    affiliation: "Sorbonne Université & Robert Koch Institut",
+    avatar: "/img/team/hugues-richard.png",
   },
   {
-    name: "Pierre Delaugère",
-    affiliation: "Sorbonne Université",
-    avatar: "/img/team/pierre-delaugere.jpg",
+    name: "Adèle Dhuyser",
+    affiliation: "CHRU de Nancy & Université de Lorraine",
+    avatar: "/img/team/adele.jpg",
+  },
+  {
+    name: "Alice Aarnink",
+    affiliation: "CHRU de Nancy & Université de Lorraine",
+    avatar: "/img/team/alice-aarnink.jpg",
   },
   {
     name: "Laurent Mesnard",
@@ -82,14 +119,9 @@ const teamMembers = [
     avatar: "/img/team/laurent-mesnard.jpg",
   },
   {
-    name: "Hugues Richard",
-    affiliation: "Sorbonne Université & Robert Koch Institut",
-    avatar: "/img/team/hugues-richard.png",
-  },
-  {
-    name: "Alice Aarnink",
-    affiliation: "CHRU de Nancy & Université de Lorraine",
-    avatar: "/img/team/alice-aarnink.jpg",
+    name: "Pierre Delaugère",
+    affiliation: "Sorbonne Université",
+    avatar: "/img/team/pierre-delaugere.jpg",
   },
 ];
 
@@ -118,6 +150,35 @@ const allopipeFeatures = [
 </script>
 
 <style scoped>
+.github-alert {
+  font-size: 1.1em; /* Augmente légèrement la taille du texte */
+}
+
+.text-wrapper {
+  line-height: 1.5;
+}
+
+.single-line {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.single-line span,
+.single-line a {
+  display: inline;
+}
+
+.github-link {
+  font-weight: bold;
+  color: #67c23a; /* Vert d'Element Plus */
+  text-decoration: none;
+  margin-left: 4px; /* Ajoute un petit espace entre le texte et le lien */
+}
+
+.github-link:hover {
+  text-decoration: underline;
+}
 .about-us {
   padding: 2rem 0;
 }

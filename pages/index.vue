@@ -14,46 +14,58 @@
             height="300px"
             indicator-position="outside"
           >
-            <el-carousel-item v-for="item in carouselItems" :key="item.id">
+            <el-carousel-item
+              v-for="item in carouselItems"
+              :key="item.id"
+            >
               <div class="carousel-content">
                 <h3 style="line-height: auto">{{ item.title }}</h3>
                 <p class="authors">{{ item.authors.join(", ") }}</p>
                 <p class="date">{{ item.date }}</p>
                 <!-- Affiche la date -->
-                <el-button type="primary" @click="openArticle(item.link)"
-                  >Read Publication</el-button
-                >
+                <el-button
+                  type="primary"
+                  @click="openArticle(item.link)"
+                >Read Publication</el-button>
               </div>
             </el-carousel-item>
           </el-carousel>
           <p v-else>Loading carousel items...</p>
         </el-row>
+        <section class="c-section c-section--1">
+          <el-col :span="24">
+            <el-row class="content-container">
+              <p class="c-section--title">
+                I want to discover what is Allogenomics, and how it can help me
+              </p>
+            </el-row>
+            <el-row class="button-container">
+              <el-button
+                size="large"
+                round
+                class="get-started-button"
+              >
+                <NuxtLink to="/calculator">Launch my first analysis</NuxtLink>
+              </el-button>
+            </el-row>
+          </el-col>
+        </section>
         <el-image
-          style="height: 500px; width: 100%"
+          style="height: 500px; width: 100%;margin-bottom: 50px;margin-top: 10px;"
           src="/img/nefro.jpg"
           fit="contain"
         >
         </el-image>
       </div>
-      <section class="c-section c-section--1">
-        <el-col :span="24">
-          <el-row class="content-container">
-            <p class="c-section--title">
-              I want to discover what is Allogenomics, and how it can help me
-            </p>
-          </el-row>
-          <el-row class="button-container">
-            <el-button size="large" round class="get-started-button">
-              <NuxtLink to="/calculator">Get Started</NuxtLink>
-            </el-button>
-          </el-row>
-        </el-col>
-      </section>
 
       <section class="c-section c-section--2">
         <div class="team-container">
           <h2 class="section-title">Our Team</h2>
-          <el-space wrap :size="20" class="photo-grid">
+          <el-space
+            wrap
+            :size="20"
+            class="photo-grid"
+          >
             <el-card
               shadow="hover"
               v-for="member in teamMembers"
@@ -62,7 +74,10 @@
             >
               <template #header>
                 <div class="card-header">
-                  <img :src="member.image" :alt="member.name" />
+                  <img
+                    :src="member.image"
+                    :alt="member.name"
+                  />
                   <h3>{{ member.name }}</h3>
                 </div>
               </template>
@@ -71,7 +86,11 @@
           </el-space>
 
           <h2 class="section-title">Alumni and Close Collaborators</h2>
-          <el-space wrap :size="20" class="photo-grid">
+          <el-space
+            wrap
+            :size="20"
+            class="photo-grid"
+          >
             <el-card
               shadow="hover"
               v-for="collaborator in alumniCollaborators"
@@ -80,7 +99,10 @@
             >
               <template #header>
                 <div class="card-header">
-                  <img :src="collaborator.image" :alt="collaborator.name" />
+                  <img
+                    :src="collaborator.image"
+                    :alt="collaborator.name"
+                  />
                   <h3>{{ collaborator.name }}</h3>
                 </div>
               </template>
@@ -93,9 +115,20 @@
       <section class="c-section c-section--3">
         <div class="team-container">
           <h2 class="section-title">Affiliations</h2>
-          <el-carousel :interval="4000" height="200px" class="sponsor-carousel">
-            <el-carousel-item v-for="item in sponsors" :key="item.name">
-              <el-image :src="item.image" fit="contain" class="sponsor-image" />
+          <el-carousel
+            :interval="1500"
+            height="200px"
+            class="sponsor-carousel"
+          >
+            <el-carousel-item
+              v-for="item in sponsors"
+              :key="item.name"
+            >
+              <el-image
+                :src="item.image"
+                fit="contain"
+                class="sponsor-image"
+              />
             </el-carousel-item>
           </el-carousel>
         </div>
@@ -167,7 +200,7 @@ const teamMembers = [
   },
   {
     name: "Adele Dhuyser",
-    image: "",
+    image: "/img/team/adele.jpg",
     description: "Immunologist",
   },
 ];

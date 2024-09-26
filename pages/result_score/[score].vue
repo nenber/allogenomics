@@ -3,30 +3,32 @@
   <div class="score-result">
     <el-card class="score-card">
       <template #header>
-        <h2>Résultat du Score</h2>
+        <h2>Allogenomic mismatch score (AMS)</h2>
       </template>
-      <el-row :gutter="20">
-        <el-col :span="24">
-          <h3>Score</h3>
-          <el-statistic
-            :value="score"
-            :precision="2"
-          >
-            <template #title>
-              <div class="statistic-title">Nombre représentant le score</div>
-            </template>
-          </el-statistic>
+      <el-row
+        :gutter="20"
+        justify="center"
+        align="middle"
+        class="score-display"
+      >
+        <el-col
+          :span="24"
+          class="text-center"
+        >
+          <div class="score-container">
+            <div class="score-value">{{ score }}</div>
+            <!-- <div class="score-label">Score</div> -->
+          </div>
         </el-col>
       </el-row>
       <el-divider />
       <el-row :gutter="20">
         <el-col :span="24">
-          <h3>Mode Solid Organ Transplantation</h3>
+          <h3>Solid Organ Transplantation</h3>
           <el-image
             style="width: 100%; max-width: 600px"
             :src="'/img/graph.png'"
-            alt="Graphe pour
-          Solid Organ Transplantation"
+            alt="Graphe pour Solid Organ Transplantation"
           />
           <el-alert
             title="Disclaimer: for illustration purposes only, the expected AMS value may depend on the sequencing technology and the specify of your individuals."
@@ -39,7 +41,7 @@
       <el-divider />
       <el-row :gutter="20">
         <el-col :span="24">
-          <h3>Mode HSCT</h3>
+          <h3>HSCT</h3>
           <el-alert
             title="Coming soon: expected AMS distribution for related pairs. We are open for collaborations on this topic."
             type="warning"
@@ -56,7 +58,6 @@
 import { ref } from "vue";
 const appConfig = useAppConfig();
 import type { ImageProps } from "element-plus";
-console.log("tessst");
 
 const route = useRoute();
 const param = route.params.score;
@@ -80,13 +81,35 @@ const graph = ref("/img/graph.png");
   margin-bottom: 20px;
 }
 
-.statistic-title {
-  font-size: 16px;
-  color: #909399;
-}
-
 h2,
 h3 {
   margin-bottom: 20px;
+}
+
+.score-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.score-container {
+  text-align: center;
+}
+
+.score-value {
+  font-size: 4rem;
+  font-weight: bold;
+  color: #409eff;
+  line-height: 1;
+}
+
+.score-label {
+  font-size: 2rem;
+  color: #909399;
+  margin-top: 10px;
+}
+
+.text-center {
+  text-align: center;
 }
 </style>

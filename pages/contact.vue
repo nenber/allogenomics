@@ -31,7 +31,7 @@
         prop="institution"
       >
         <el-input
-          v-model="form.email"
+          v-model="form.institution"
           placeholder="Institution"
         ></el-input>
       </el-form-item>
@@ -64,6 +64,7 @@ const formRef = ref(null);
 const form = ref({
   name: "",
   email: "",
+  institution: "",
   message: "",
 });
 

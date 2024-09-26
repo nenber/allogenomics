@@ -1,17 +1,26 @@
 <template>
   <div class="component-container">
-    <div class="card" style="min-width: 558px">
+    <div
+      class="card"
+      style="min-width: 558px"
+    >
       <div class="card-header">
         <h2>Pair</h2>
       </div>
       <div class="card-body">
         <!-- Button for demo data -->
-        <el-form-item label="Use demo data" style="margin-left: 20px">
+        <el-form-item
+          label="Use demo data"
+          style="margin-left: 20px"
+        >
           <el-switch v-model="useDemoData" />
         </el-form-item>
         <div v-if="useDemoData">
           <el-form-item style="margin-left: 20px">
-            <el-button type="primary" @click="loadDemoData">
+            <el-button
+              type="primary"
+              click="downloadFiles"
+            >
               <el-icon style="margin-right: 5px">
                 <Download />
               </el-icon>
@@ -19,7 +28,10 @@
             </el-button>
           </el-form-item>
         </div>
-        <div v-else class="upload-container">
+        <div
+          v-else
+          class="upload-container"
+        >
           <el-upload
             ref="uploadRecipient"
             class="upload-demo"
@@ -41,9 +53,7 @@
                 width="24px"
                 fill="#666666"
               >
-                <path
-                  d="M200-40v-40q0-139 58-225.5T418-480q-102-88-160-174.5T200-880v-40h80v40q0 11 .5 20.5T282-840h396q1-10 1.5-19.5t.5-20.5v-40h80v40q0 139-58 225.5T542-480q102 88 160 174.5T760-80v40h-80v-40q0-11-.5-20.5T678-120H282q-1 10-1.5 19.5T280-80v40h-80v-40q0-11-.5-20.5T282-240H558q-1 10-1.5 19.5T558-120h-278Zm138-640h284q13-19 22.5-38t17.5-42H298q8 22 17.5 41.5T338-680Zm142 148q20-17 39-34t36-34H405q17 17 36 34t39 34Zm-75 172h150q-17-17-36-34t-39-34q-20 17-39 34t-36 34ZM298-200h364q-8-22-17.5-41.5T622-280H338q-13 19-22.5 38T298-200Z"
-                />
+                <path d="M200-40v-40q0-139 58-225.5T418-480q-102-88-160-174.5T200-880v-40h80v40q0 11 .5 20.5T282-840h396q1-10 1.5-19.5t.5-20.5v-40h80v40q0 139-58 225.5T542-480q102 88 160 174.5T760-80v40h-80v-40q0-11-.5-20.5T678-120H282q-1 10-1.5 19.5T280-80v40h-80v-40q0-11-.5-20.5T282-240H558q-1 10-1.5 19.5T558-120h-278Zm138-640h284q13-19 22.5-38t17.5-42H298q8 22 17.5 41.5T338-680Zm142 148q20-17 39-34t36-34H405q17 17 36 34t39 34Zm-75 172h150q-17-17-36-34t-39-34q-20 17-39 34t-36 34ZM298-200h364q-8-22-17.5-41.5T622-280H338q-13 19-22.5 38T298-200Z" />
               </svg>
             </el-icon>
             <div class="el-upload__text">
@@ -76,9 +86,7 @@
                 width="24px"
                 fill="#666666"
               >
-                <path
-                  d="M640-440 474-602q-31-30-52.5-66.5T400-748q0-55 38.5-93.5T532-880q32 0 60 13.5t48 36.5q20-23 48-36.5t60-13.5q55 0 93.5 38.5T880-748q0 43-21 79.5T807-602L640-440Zm0-112 109-107q19-19 35-40.5t16-48.5q0-22-15-37t-37-15q-14 0-26.5 5.5T700-778l-60 72-60-72q-9-11-21.5-16.5T532-800q-22 0-37 15t-15 37q0 27 16 48.5t35 40.5l109 107ZM280-220l278 76 238-74q-5-9-14.5-15.5T760-240H558q-27 0-43-2t-33-8l-93-31 22-78 81 27q17 5 40 8t68 4q0-11-6.5-21T578-354l-234-86h-64v220ZM40-80v-440h304q7 0 14 1.5t13 3.5l235 87q33 12 53.5 42t20.5 66h80q50 0 85 33t35 87v40L560-60l-280-78v58H40Zm80-80h80v-280h-80v280Zm520-546Z"
-                />
+                <path d="M640-440 474-602q-31-30-52.5-66.5T400-748q0-55 38.5-93.5T532-880q32 0 60 13.5t48 36.5q20-23 48-36.5t60-13.5q55 0 93.5 38.5T880-748q0 43-21 79.5T807-602L640-440Zm0-112 109-107q19-19 35-40.5t16-48.5q0-22-15-37t-37-15q-14 0-26.5 5.5T700-778l-60 72-60-72q-9-11-21.5-16.5T532-800q-22 0-37 15t-15 37q0 27 16 48.5t35 40.5l109 107ZM280-220l278 76 238-74q-5-9-14.5-15.5T760-240H558q-27 0-43-2t-33-8l-93-31 22-78 81 27q17 5 40 8t68 4q0-11-6.5-21T578-354l-234-86h-64v220ZM40-80v-440h304q7 0 14 1.5t13 3.5l235 87q33 12 53.5 42t20.5 66h80q50 0 85 33t35 87v40L560-60l-280-78v58H40Zm80-80h80v-280h-80v280Zm520-546Z" />
               </svg>
             </el-icon>
             <div class="el-upload__text">
@@ -113,9 +121,33 @@ const emit = defineEmits(["update:modelValue"]);
 const uploadRecipient = ref<UploadInstance>();
 const uploadDonor = ref<UploadInstance>();
 const useDemoData = ref(props.modelValue.sample);
+const downloadFile = (url, filename) => {
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  link.click();
+};
 
+const downloadFiles = () => {
+  console.log("download");
+
+  // Remplace les URLs ci-dessous par les URL des fichiers que tu souhaites télécharger
+  downloadFile(
+    "https://github.com/huguesrichard/Allopipe/raw/refs/heads/main/tutorial/recipient_annotated_VEP.vcf",
+    "recipient_annotated_VEP.vcf"
+  );
+  downloadFile(
+    "https://github.com/huguesrichard/Allopipe/raw/refs/heads/main/tutorial/donor_annotated_VEP.vcf",
+    "donor_annotated_VEP.vcf"
+  );
+};
 watch(useDemoData, (newValue) => {
+  console.log("sample", newValue);
+
   updateForm("sample", newValue);
+  if (newValue == true) {
+    loadDemoData();
+  }
 });
 
 function loadDemoData() {
@@ -177,6 +209,7 @@ function checkError(file) {
 }
 
 function updateForm(key: string, value: any) {
+  props.modelValue[key] = value;
   const updatedForm = { ...props.modelValue, [key]: value };
   emit("update:modelValue", updatedForm);
 }
