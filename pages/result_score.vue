@@ -8,7 +8,10 @@
       <el-row :gutter="20">
         <el-col :span="24">
           <h3>Score</h3>
-          <el-statistic :value="score" :precision="2">
+          <el-statistic
+            :value="score"
+            :precision="2"
+          >
             <template #title>
               <div class="statistic-title">Nombre représentant le score</div>
             </template>
@@ -21,7 +24,7 @@
           <h3>Mode Solid Organ Transplantation</h3>
           <el-image
             style="width: 100%; max-width: 600px"
-            :src="graph.image"
+            :src="/img/"
             alt="Graphe pour
           Solid Organ Transplantation"
           />
