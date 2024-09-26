@@ -19,6 +19,7 @@
         @submit-clicked="handleSubmitClick"
         @handle-files-upload="handleFilesUpload"
         v-model="form"
+        :is-loading="isLoading"
       />
     </div>
 
@@ -47,6 +48,7 @@ import score from "@/components/steps/score.vue";
 const active = ref(0);
 const selectedCard = ref<boolean | null>(null);
 const selectedTransplantationCard = ref<boolean | null>(null);
+const isLoading = ref<boolean>(false);
 
 const currentStepComponent = computed(() => stepComponents[active.value]);
 
@@ -78,8 +80,10 @@ watch(form, (newForm) => {
 const handleSubmitClick = async (f) => {
   if (form.value.sample == false) {
     if (
-      (!form.value.pairDonorFile && !form.value.pairRecipientFile) ||
-      (!form.value.cohortMergedFile && !form.value.cohortDonorRecipientListFile)
+      (form.value.pairDonorFile === null &&
+        !form.value.pairRecipientFile === null) ||
+      (form.value.cohortMergedFile === null &&
+        !form.value.cohortDonorRecipientListFile === null)
     ) {
       ElNotification({
         title: "Error",
@@ -124,14 +128,19 @@ const handleSubmitClick = async (f) => {
   console.log("sending form", formData.values());
 
   try {
+    isLoading.value = true;
     const response = await fetch("/api/pipeline", {
       method: "POST",
       body: formData,
     });
     const result = await response.json();
+    await navigateTo("/result_score");
+
     console.log(result);
   } catch (error) {
-    console.error("Error uploading file:", error);
+    console.error("Error :", error);
+  } finally {
+    isLoading.value = false;
   }
   // Optionally, you can automatically move to the next step here if needed
   // next();

@@ -1,9 +1,6 @@
 <template>
   <div class="form-container">
-    <el-card
-      class="form-card"
-      shadow="hover"
-    >
+    <el-card class="form-card" shadow="hover">
       <el-form
         :model="form"
         ref="formRef"
@@ -12,10 +9,7 @@
         :rules="rules"
         @submit.prevent="submitForm"
       >
-        <el-form-item
-          label="Minimal depth per position"
-          prop="min_dp"
-        >
+        <el-form-item label="Minimal depth per position" prop="min_dp">
           <el-input-number
             v-model="form.min_dp"
             :min="0"
@@ -23,13 +17,9 @@
             name="min_dp"
             placeholder="MIN_DP"
           />
-
         </el-form-item>
 
-        <el-form-item
-          label="Maximal depth per position"
-          prop="max_dp"
-        >
+        <el-form-item label="Maximal depth per position" prop="max_dp">
           <el-input-number
             v-model="form.max_dp"
             :min="0"
@@ -38,10 +28,7 @@
           />
         </el-form-item>
 
-        <el-form-item
-          label="Minimal allelic depth"
-          prop="min_ad"
-        >
+        <el-form-item label="Minimal allelic depth" prop="min_ad">
           <el-input-number
             v-model="form.min_ad"
             :min="0"
@@ -51,10 +38,7 @@
           />
         </el-form-item>
 
-        <el-form-item
-          label="Homozygosity threshold"
-          prop="homozigosity_thr"
-        >
+        <el-form-item label="Homozygosity threshold" prop="homozigosity_thr">
           <template #label>
             <span>
               Homozygosity threshold
@@ -101,10 +85,7 @@
           />
         </el-form-item>
 
-        <el-form-item
-          label="Genotype quality threshold"
-          prop="min_gq"
-        >
+        <el-form-item label="Genotype quality threshold" prop="min_gq">
           <el-input-number
             v-model="form.min_gq"
             :min="0"
@@ -113,10 +94,7 @@
           />
         </el-form-item>
 
-        <el-form-item
-          label="Maximal indels length"
-          prop="base_length"
-        >
+        <el-form-item label="Maximal indels length" prop="base_length">
           <template #label>
             <span>
               Maximal indels length
@@ -136,10 +114,7 @@
           />
         </el-form-item>
 
-        <el-form-item
-          label="Run name"
-          prop="run_name"
-        >
+        <el-form-item label="Run name" prop="run_name">
           <el-input
             v-model="form.run_name"
             name="run_name"
@@ -147,22 +122,11 @@
           />
         </el-form-item>
 
-        <el-form-item
-          label="Pair name"
-          prop="pair"
-          v-if="form.is_pair"
-        >
-          <el-input
-            v-model="form.pair"
-            name="pair"
-            placeholder="PAIR"
-          />
+        <el-form-item label="Pair name" prop="pair" v-if="form.is_pair">
+          <el-input v-model="form.pair" name="pair" placeholder="PAIR" />
         </el-form-item>
 
-        <el-form-item
-          label="Toggle score normalization"
-          v-if="!form.is_pair"
-        >
+        <el-form-item label="Toggle score normalization" v-if="!form.is_pair">
           <template #label>
             <span>
               Toggle score normalization
@@ -174,10 +138,7 @@
               </el-tooltip>
             </span>
           </template>
-          <el-switch
-            v-model="form.ns"
-            name="ns"
-          ></el-switch>
+          <el-switch v-model="form.ns" name="ns"></el-switch>
         </el-form-item>
 
         <!-- <el-form-item label="Worst consequence annotations">
@@ -196,10 +157,9 @@
         </el-form-item> -->
 
         <el-form-item class="submit-container">
-          <el-button
-            type="primary"
-            native-type="submit"
-          >Submit</el-button>
+          <el-button type="primary" native-type="submit" :loading="isLoading"
+            >Submit</el-button
+          >
         </el-form-item>
       </el-form>
     </el-card>
@@ -217,6 +177,7 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  isLoading: Boolean,
 });
 const form = props.modelValue;
 

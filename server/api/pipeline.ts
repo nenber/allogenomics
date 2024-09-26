@@ -1,4 +1,4 @@
-import { createWriteStream } from "fs";
+import { createWriteStream, unlink } from "fs"; // Importez unlink pour supprimer les fichiers
 import { join } from "path";
 import { useRuntimeConfig } from "#imports";
 import { exec } from "child_process";
@@ -106,22 +106,45 @@ export default defineEventHandler(async (event) => {
     exec(command, (error, stdout, stderr) => {
       if (error) {
         console.error(`exec error: ${error}`);
-        reject(error);
+        reject({ code: 500, message: error });
       } else {
         console.log(`stdout: ${stdout}`);
         console.error(`stderr: ${stderr}`);
-        resolve({ message: "Command executed successfully", value: stdout });
+        resolve({
+          code: 200,
+          message: "Command executed successfully",
+          value: stdout,
+        });
       }
     });
   });
 
+  // Suppression des fichiers uploadés
+  await Promise.all(filesUploadedPaths.map((filePath) => deleteFile(filePath)));
+
   return {
-    status: "success",
-    message: res,
-    data: formValues,
+    status: res.code == 200 ? "success" : "error",
+    code: res.code,
+    message: res.message,
+    data: res.value,
   };
 });
-
+// Fonction pour supprimer un fichier
+function deleteFile(filePath) {
+  return new Promise((resolve, reject) => {
+    unlink(filePath, (err) => {
+      if (err) {
+        console.error(
+          `Erreur lors de la suppression du fichier ${filePath}:`,
+          err
+        );
+        return reject(err);
+      }
+      console.log(`Fichier supprimé: ${filePath}`);
+      resolve();
+    });
+  });
+}
 function handleFileUpload(field) {
   if (field && field.filename) {
     let path = process.cwd();

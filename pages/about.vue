@@ -5,21 +5,21 @@
         <h1 class="about-us__title">About AlloPipe</h1>
         <el-divider />
         <p class="about-us__description">
-          AlloPipe provides new insights in alloreactivity and related immune processes. Our tool offers potential for improving donor/recipient matching and predicting alloreactive processes in transplantation.
+          AlloPipe provides new insights in alloreactivity and related immune
+          processes. Our tool offers potential for improving donor/recipient
+          matching and predicting alloreactive processes in transplantation.
         </p>
 
         <h2 class="about-us__subtitle">Our Mission</h2>
         <p>
-          Our mission is to enhance transplantation outcomes by developing innovative tools for better donor/recipient matching and personalized immunosuppressive therapies.
+          Our mission is to enhance transplantation outcomes by developing
+          innovative tools for better donor/recipient matching and personalized
+          immunosuppressive therapies.
         </p>
 
         <h2 class="about-us__subtitle">Our Team</h2>
         <el-row :gutter="20">
-          <el-col
-            :span="8"
-            v-for="member in teamMembers"
-            :key="member.name"
-          >
+          <el-col :span="8" v-for="member in teamMembers" :key="member.name">
             <el-card class="team-member">
               <img
                 :src="member.avatar"
@@ -151,5 +151,7 @@ const allopipeFeatures = [
   height: 150px;
   border-radius: 50%;
   margin-bottom: 1rem;
+  object-fit: cover; /* Ajout de cette ligne */
+  object-position: center; /* Ajout de cette ligne */
 }
 </style>
