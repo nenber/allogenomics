@@ -134,8 +134,10 @@ const handleSubmitClick = async (f) => {
       body: formData,
     });
     const result = await response.json();
-    await navigateTo("/result_score");
+    const score = result.data.split("\n")[2];
+    console.log("score", score);
 
+    const e = await navigateTo(`/result_score/${score}`);
     console.log(result);
   } catch (error) {
     console.error("Error :", error);
