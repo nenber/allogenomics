@@ -21,7 +21,7 @@
           <h3>Mode Solid Organ Transplantation</h3>
           <el-image
             style="width: 100%; max-width: 600px"
-            :src="graph.image"
+            :src="'/img/graph.png'"
             alt="Graphe pour
           Solid Organ Transplantation"
           />
@@ -53,10 +53,17 @@
 import { ref } from "vue";
 const appConfig = useAppConfig();
 import type { ImageProps } from "element-plus";
+console.log("tessst");
+
+const route = useRoute();
+const param = route.params.score;
+
+// Exemple de score basé sur le paramètre, vous pouvez ajuster cela selon vos besoins
+const score = ref(param);
+console.log("param", param);
 
 // Exemple de score (à remplacer par la vraie logique de calcul)
-const score = ref(85.42);
-const graph = reactive({ image: "/img/graph.png" });
+const graph = ref("/img/graph.png");
 </script>
 
 <style scoped>
