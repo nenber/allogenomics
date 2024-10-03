@@ -4,6 +4,22 @@
     <el-card class="score-card">
       <template #header>
         <h2>Allogenomic mismatch score (AMS)</h2>
+        <el-row
+          :gutter="20"
+          justify="center"
+        >
+          <el-col
+            :span="24"
+            class="text-center"
+          >
+            <el-button
+              type="primary"
+              @click="downloadScoreFile"
+            >
+              Télécharger les fichiers
+            </el-button>
+          </el-col>
+        </el-row>
       </template>
       <el-row
         :gutter="20"
@@ -22,7 +38,10 @@
         </el-col>
       </el-row>
       <el-divider />
-      <el-row :gutter="20">
+      <el-row
+        :gutter="20"
+        v-if="sot == 'true'"
+      >
         <el-col :span="24">
           <h3>Solid Organ Transplantation</h3>
           <el-image
@@ -38,8 +57,11 @@
           />
         </el-col>
       </el-row>
-      <el-divider />
-      <el-row :gutter="20">
+      <el-divider v-if="sot == 'true'" />
+      <el-row
+        :gutter="20"
+        v-if="sot == 'false'"
+      >
         <el-col :span="24">
           <h3>HSCT</h3>
           <el-alert
@@ -50,6 +72,7 @@
           />
         </el-col>
       </el-row>
+
     </el-card>
   </div>
 </template>
@@ -57,17 +80,28 @@
 <script setup lang="ts">
 import { ref } from "vue";
 const appConfig = useAppConfig();
+import { useRoute } from "vue-router";
 import type { ImageProps } from "element-plus";
 
+// Get the score from the route parameters
+// const route = useRoute();
+// const param = route.params.score;
 const route = useRoute();
-const param = route.params.score;
+const { score, sot } = route.query;
+// Example of score based on the parameter (adjust as needed)
+// const score = ref(param);
+console.log("param", score, sot);
 
-// Exemple de score basé sur le paramètre, vous pouvez ajuster cela selon vos besoins
-const score = ref(param);
-console.log("param", param);
-
-// Exemple de score (à remplacer par la vraie logique de calcul)
+// Example of score (replace with the real logic)
 const graph = ref("/img/graph.png");
+
+// Function to download the score file
+const downloadScoreFile = () => {
+  const link = document.createElement("a");
+  link.href = "/path/to/score-file.csv"; // Replace with the actual file URL
+  link.download = "score-file.csv"; // Name of the file to download
+  link.click();
+};
 </script>
 
 <style scoped>
@@ -103,13 +137,11 @@ h3 {
   line-height: 1;
 }
 
-.score-label {
-  font-size: 2rem;
-  color: #909399;
-  margin-top: 10px;
-}
-
 .text-center {
   text-align: center;
+}
+
+.el-button {
+  margin-top: 20px;
 }
 </style>

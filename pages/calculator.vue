@@ -164,8 +164,14 @@ const handleSubmitClick = async (f) => {
     const result = await response.json();
     const score = result.data.split("\n")[2];
     console.log("score", score);
-
-    const e = await navigateTo(`/result_score/${score}`);
+    const e = await navigateTo({
+      path: "/result_score",
+      query: {
+        score: score,
+        sot: form.value.transplantation_type.toString(),
+      },
+    });
+    // const e = await navigateTo(`/result_score/${score}`);
     console.log(result);
   } catch (error) {
     console.error("Error :", error);
