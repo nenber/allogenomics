@@ -39,14 +39,14 @@ export default defineEventHandler(async (event) => {
         await fs.access(filePath);
         
         // Ajouter le fichier à l'archive ZIP
-        zipStream.file(filePath, { name: file });
+        zipStream.file(filePath, { name: path.basename(file) });
         
         // Supprimer le fichier après l'avoir ajouté à l'archive
-        try {
-          await fs.unlink(filePath); // Supprimer le fichier
-        } catch (unlinkError) {
-          console.error(`Failed to delete file: ${filePath}`, unlinkError);
-        }
+        // try {
+        //   await fs.unlink(filePath); // Supprimer le fichier
+        // } catch (unlinkError) {
+        //   console.error(`Failed to delete file: ${filePath}`, unlinkError);
+        // }
       }
     }
   } catch (error) {

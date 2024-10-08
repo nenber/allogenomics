@@ -1,4 +1,3 @@
-// /server/api/download/[param].ts
 import { promises as fs } from 'fs';
 import path from 'path';
 import archiver from 'archiver';
@@ -6,24 +5,21 @@ import { defineEventHandler, createError } from 'h3'; // Nuxt 3 API utilities
 
 export default defineEventHandler(async (event) => {
   const runtimeConfig = useRuntimeConfig(event);
-    const pipelinePath = runtimeConfig.public.PIPELINE;
-    console.log(pipelinePath);
+  const pipelinePath = runtimeConfig.public.PIPELINE;
+  console.log(pipelinePath);
     
   const { demo }  = event.context.params;
-console.log("param", demo);
+  console.log("param", demo);
 
-    let filePath1:string = ""
-    let filePath2: string = "";
-    if(demo === "pair" ) {
-        filePath1 = path.resolve(`${pipelinePath}/tutorial/donor_annotated_VEP.vcf`);
-        filePath2 = path.resolve(`${pipelinePath}/tutorial/recipient_annotated_VEP.vcf`);
-        
-    }
-    else if(demo === "cohort") {
-        filePath1 = path.resolve(`${pipelinePath}/tutorial/donor_annotated_VEP.vcf`);
-        filePath2 = path.resolve(`${pipelinePath}/tutorial/recipient_annotated_VEP.vcf`);
-    }
-  // Chemins des fichiers que vous voulez retourner
+  let filePath1:string = "";
+  let filePath2:string = "";
+  if(demo === "pair") {
+      filePath1 = path.resolve(`${pipelinePath}/tutorial/donor_annotated_VEP.vcf`);
+      filePath2 = path.resolve(`${pipelinePath}/tutorial/recipient_annotated_VEP.vcf`);
+  } else if(demo === "cohort") {
+      filePath1 = path.resolve(`${pipelinePath}/tutorial/donor_annotated_VEP.vcf`);
+      filePath2 = path.resolve(`${pipelinePath}/tutorial/recipient_annotated_VEP.vcf`);
+  }
 
   // Vérifiez que les fichiers existent
   try {
@@ -48,13 +44,13 @@ console.log("param", demo);
   // Pipe l'archive vers la réponse HTTP
   zipStream.pipe(event.node.res);
 
-  // Ajouter les deux fichiers à l'archive ZIP
-    zipStream.file(filePath1, { name: filePath1 });
-  zipStream.file(filePath2, { name:  filePath2 });
+  // Ajouter les fichiers à l'archive ZIP avec seulement leur nom de fichier (sans répertoires)
+  zipStream.file(filePath1, { name: path.basename(filePath1) });
+  zipStream.file(filePath2, { name: path.basename(filePath2) });
 
   // Finaliser l'archive et fermer le stream
-    let res = await zipStream.finalize();
-    return {
-        value:res
-    }
+  let res = await zipStream.finalize();
+  return {
+    value: res
+  };
 });
