@@ -14,7 +14,7 @@
           >
             <el-button
               type="primary"
-              @click="downloadScoreFile"
+              @click="downloadFiles"
             >
               Télécharger les fichiers
             </el-button>
@@ -87,7 +87,7 @@ import type { ImageProps } from "element-plus";
 // const route = useRoute();
 // const param = route.params.score;
 const route = useRoute();
-const { score, sot } = route.query;
+const { score, sot, name } = route.query;
 // Example of score based on the parameter (adjust as needed)
 // const score = ref(param);
 console.log("param", score, sot);
@@ -96,11 +96,15 @@ console.log("param", score, sot);
 const graph = ref("/img/graph.png");
 
 // Function to download the score file
-const downloadScoreFile = () => {
+const downloadFiles = () => {
+  // Création d'un lien temporaire pour forcer le téléchargement
+  const url = `/api/download_score/${name}`;
   const link = document.createElement("a");
-  link.href = "/path/to/score-file.csv"; // Replace with the actual file URL
-  link.download = "score-file.csv"; // Name of the file to download
+  link.href = url;
+  link.setAttribute("download", "results.zip"); // Nom du fichier ZIP à télécharger
+  document.body.appendChild(link);
   link.click();
+  document.body.removeChild(link); // Nettoyage
 };
 </script>
 

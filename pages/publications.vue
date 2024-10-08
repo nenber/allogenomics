@@ -40,10 +40,8 @@ try {
   if (fetchError.value) {
     throw new Error(fetchError.value.message);
   }
-  console.log("data", data.value);
 
   publications.value = data.value![0].body;
-  console.log("Loaded carousel items:", publications.value);
 } catch (e) {
   error.value = e;
   console.error("Error loading carousel items:", e);

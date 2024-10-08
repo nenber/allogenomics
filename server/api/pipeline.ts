@@ -42,7 +42,6 @@ export default defineEventHandler(async (event) => {
     }
   });
 
-  console.log("Valeurs des champs du formulaire:", formValues);
   const runtimeConfig = useRuntimeConfig(event);
   const pipelinePath = runtimeConfig.public.PIPELINE;
   const pythonPath = runtimeConfig.public.PYTHON;
@@ -100,7 +99,6 @@ export default defineEventHandler(async (event) => {
     });
   }
   command += ` rd`;
-  console.log(command);
 
   const res = await new Promise((resolve, reject) => {
     exec(command, (error, stdout, stderr) => {
@@ -108,7 +106,6 @@ export default defineEventHandler(async (event) => {
         console.error(`exec error: ${error}`);
         reject({ code: 500, message: error });
       } else {
-        console.log(`stdout: ${stdout}`);
         console.error(`stderr: ${stderr}`);
         resolve({
           code: 200,
@@ -140,7 +137,6 @@ function deleteFile(filePath) {
         );
         return reject(err);
       }
-      console.log(`Fichier supprimé: ${filePath}`);
       resolve();
     });
   });

@@ -19,7 +19,7 @@
           <el-form-item style="margin-left: 20px">
             <el-button
               type="primary"
-              click="downloadFiles"
+              @click="downloadFiles"
             >
               <el-icon style="margin-right: 5px">
                 <Download />
@@ -121,29 +121,18 @@ const emit = defineEmits(["update:modelValue"]);
 const uploadRecipient = ref<UploadInstance>();
 const uploadDonor = ref<UploadInstance>();
 const useDemoData = ref(props.modelValue.sample);
-const downloadFile = (url, filename) => {
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = filename;
-  link.click();
-};
 
 const downloadFiles = () => {
-  console.log("download");
-
-  // Remplace les URLs ci-dessous par les URL des fichiers que tu souhaites télécharger
-  downloadFile(
-    "https://github.com/huguesrichard/Allopipe/raw/refs/heads/main/tutorial/recipient_annotated_VEP.vcf",
-    "recipient_annotated_VEP.vcf"
-  );
-  downloadFile(
-    "https://github.com/huguesrichard/Allopipe/raw/refs/heads/main/tutorial/donor_annotated_VEP.vcf",
-    "donor_annotated_VEP.vcf"
-  );
+  // Création d'un lien temporaire pour forcer le téléchargement
+  const url = `/api/download/pair`;
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", "files.zip"); // Nom du fichier ZIP à télécharger
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link); // Nettoyage
 };
 watch(useDemoData, (newValue) => {
-  console.log("sample", newValue);
-
   updateForm("sample", newValue);
   if (newValue == true) {
     loadDemoData();
@@ -157,7 +146,6 @@ function loadDemoData() {
 }
 
 function handleChangeRecipient(file) {
-  console.log("Recipient file selected:", file);
   if (!checkError(file)) {
     uploadRecipient.value!.clearFiles();
     updateForm("pairRecipientFile", null);
@@ -174,7 +162,6 @@ function handleRemoveRecipient() {
 }
 
 function handleChangeDonor(file) {
-  console.log("Donor file selected:", file);
   if (!checkError(file)) {
     uploadDonor.value!.clearFiles();
     updateForm("pairDonorFile", null);

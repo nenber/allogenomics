@@ -97,13 +97,9 @@ const form = ref({
   pair: "test_pair",
   sample: false,
 });
-watch(form, (newForm) => {
-  //console.log("new form", newForm);
-});
+watch(form, (newForm) => {});
 
 const handleSubmitClick = async (f) => {
-  console.log("form sended : ", form.value);
-
   if (form.value.sample == false) {
     if (
       (form.value.pairDonorFile === null &&
@@ -111,8 +107,6 @@ const handleSubmitClick = async (f) => {
       (form.value.cohortMergedFile === null &&
         form.value.cohortDonorRecipientListFile === null)
     ) {
-      console.log("invalmid files");
-
       ElNotification({
         title: "Error",
         dangerouslyUseHTMLString: true,
@@ -152,9 +146,6 @@ const handleSubmitClick = async (f) => {
   );
   formData.append("pair", form.value.pair);
 
-  //console.log(formData);
-  console.log("sending form", formData.values());
-
   try {
     isLoading.value = true;
     const response = await fetch("/api/pipeline", {
@@ -162,17 +153,19 @@ const handleSubmitClick = async (f) => {
       body: formData,
     });
     const result = await response.json();
-    const score = result.data.split("\n")[2];
-    console.log("score", score);
+
+    // Utilisation d'une expression régulière pour extraire le premier nombre trouvé dans le texte
+    const match = result.data.match(/\d+/); // \d+ correspond à un ou plusieurs chiffres
+    const score = match ? match[0] : null; // Si un match est trouvé, on récupère le premier
+
     const e = await navigateTo({
       path: "/result_score",
       query: {
         score: score,
         sot: form.value.transplantation_type.toString(),
+        name: form.value.run_name,
       },
     });
-    // const e = await navigateTo(`/result_score/${score}`);
-    console.log(result);
   } catch (error) {
     console.error("Error :", error);
   } finally {
@@ -183,8 +176,6 @@ const handleSubmitClick = async (f) => {
 };
 // Step components
 const stepComponents = computed(() => {
-  console.log("form", form.value);
-
   if (active.value === 0) {
     return chooseContent;
   } else if (active.value === 1) {
@@ -225,7 +216,6 @@ const handleCardClick = (cardType: boolean) => {
     form.value.pairRecipientFile = null;
     form.value.pairDonorFile = null;
   }
-  console.log(`Card clicked: ${cardType}`);
   next();
   // Optionally, you can automatically move to the next step here if needed
   // next();
@@ -233,14 +223,12 @@ const handleCardClick = (cardType: boolean) => {
 const handleCardTransplantationClick = (cardType: boolean) => {
   selectedTransplantationCard.value = cardType; // Store which card was clicked
   form.value.transplantation_type = cardType;
-  console.log(`Card transplantation clicked: ${cardType}`);
   next();
   // Optionally, you can automatically move to the next step here if needed
   // next();
 };
 
 const handleFilesUpload = (files: File[]) => {
-  console.log("Uploaded files:", files);
   // Optionally, you can automatically move to the next step here if needed
   // next();
 };

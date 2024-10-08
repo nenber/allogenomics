@@ -20,7 +20,7 @@
           <el-form-item style="margin-left: 20px">
             <el-button
               type="primary"
-              @click="loadDemoData"
+              @click="downloadFiles"
             >
               <el-icon style="margin-right: 5px">
                 <Download />
@@ -134,6 +134,16 @@ const useDemoData = ref(props.modelValue.sample);
 // State to manage dragover status
 const isDragOverMerged = ref(false);
 const isDragOverRecipient = ref(false);
+const downloadFiles = () => {
+  // Création d'un lien temporaire pour forcer le téléchargement
+  const url = `/api/download/cohort`;
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", "files.zip"); // Nom du fichier ZIP à télécharger
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link); // Nettoyage
+};
 
 watch(useDemoData, (newValue) => {
   updateForm("sample", newValue);
@@ -149,7 +159,6 @@ function loadDemoData() {
 }
 
 const handleChangeMerged = (file) => {
-  console.log("Merged file selected:", file);
   if (!checkError(file, acceptedFileTypes1)) {
     uploadMerged.value!.clearFiles();
     updateForm("cohortMergedFile", null);
@@ -164,7 +173,6 @@ const handleRemoveMerged = () => {
 };
 
 const handleChangeDonorRecipientList = (file) => {
-  console.log("DonorRecipientList file selected:", file);
   if (!checkError(file, acceptedFileTypes2)) {
     uploadDonorRecipientList.value!.clearFiles();
     updateForm("cohortDonorRecipientListFile", null);
@@ -206,7 +214,6 @@ const acceptedFileTypes1 = ".vcf,.vcf.gz";
 const acceptedFileTypes2 = ".csv";
 
 const handleSuccess = (response) => {
-  console.log("File uploaded successfully", response);
   ElMessage.success("File uploaded successfully");
 };
 

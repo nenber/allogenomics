@@ -151,10 +151,8 @@ try {
   if (fetchError.value) {
     throw new Error(fetchError.value.message);
   }
-  console.log("data", data.value);
 
   carouselItems.value = data.value![0].body;
-  console.log("Loaded carousel items:", carouselItems.value);
 } catch (e) {
   error.value = e;
   console.error("Error loading carousel items:", e);

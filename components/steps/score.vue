@@ -327,10 +327,8 @@ const rules = {
 const submitForm = () => {
   formRef.value.validate((valid) => {
     if (valid) {
-      console.log("Form data:", formRef.value);
       emit("submit-clicked", formRef.value);
     } else {
-      console.log("Form validation failed");
       return false;
     }
   });
