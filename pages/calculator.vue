@@ -11,6 +11,10 @@
         style="min-width: 60%"
       >
         <el-step
+          title="Getting started"
+          description="Before getting started"
+        />
+        <el-step
           title="Data"
           description="Pair or cohort"
         />
@@ -20,7 +24,7 @@
         />
         <el-step
           title="Transplantation"
-          description="HSCT or SOT"
+          description="HCT or SOT"
         />
         <el-step
           title="Parameters"
@@ -50,7 +54,7 @@
           @click="returnStep"
         >Return</el-button>
         <el-button
-          v-if="active === 1"
+          v-if="active < 4"
           type="primary"
           @click="next"
         >Next step</el-button>
@@ -68,6 +72,7 @@ import pairContent from "@/components/steps/pair.vue";
 import cohortContent from "@/components/steps/cohort.vue";
 import chooseTransplantationContent from "@/components/steps/chooseTransplantation.vue";
 import score from "@/components/steps/score.vue";
+import getStarted from "@/components/steps/getStarted.vue";
 
 const active = ref(0);
 const selectedCard = ref<boolean | null>(null);
@@ -98,15 +103,48 @@ const form = ref({
   sample: false,
 });
 watch(form, (newForm) => {});
-
+const alertCalculating = () => {
+  ElNotification({
+    title: "Info",
+    message: "Calculating...",
+    type: "info",
+  });
+};
+const alertError = () => {
+  ElNotification({
+    title: "Error",
+    message: "An error occured while processing",
+    type: "error",
+  });
+};
 const handleSubmitClick = async (f) => {
+  let isFileEmpty: boolean = false;
+
   if (form.value.sample == false) {
-    if (
-      (form.value.pairDonorFile === null &&
-        form.value.pairRecipientFile === null) ||
-      (form.value.cohortMergedFile === null &&
-        form.value.cohortDonorRecipientListFile === null)
-    ) {
+    if (form.value.pair) {
+      if (
+        form.value.pairDonorFile == null &&
+        form.value.pairRecipientFile == null
+      ) {
+        isFileEmpty = true;
+      } else {
+        isFileEmpty = false;
+      }
+    } else {
+      if (
+        form.value.cohortMergedFile == null &&
+        form.value.cohortDonorRecipientListFile == null
+      ) {
+        isFileEmpty = true;
+      } else {
+        isFileEmpty = false;
+      }
+    }
+    console.log("isFileEmpty", isFileEmpty);
+
+    if (isFileEmpty) {
+      console.log("error", form.value);
+
       ElNotification({
         title: "Error",
         dangerouslyUseHTMLString: true,
@@ -148,6 +186,7 @@ const handleSubmitClick = async (f) => {
 
   try {
     isLoading.value = true;
+    alertCalculating();
     const response = await fetch("/api/pipeline", {
       method: "POST",
       body: formData,
@@ -167,6 +206,7 @@ const handleSubmitClick = async (f) => {
       },
     });
   } catch (error) {
+    alertError();
     console.error("Error :", error);
   } finally {
     isLoading.value = false;
@@ -177,13 +217,15 @@ const handleSubmitClick = async (f) => {
 // Step components
 const stepComponents = computed(() => {
   if (active.value === 0) {
-    return chooseContent;
+    return getStarted;
   } else if (active.value === 1) {
+    return chooseContent;
+  } else if (active.value === 2) {
     // Load different components based on card selection
     return selectedCard.value ? pairContent : cohortContent;
-  } else if (active.value === 2) {
-    return chooseTransplantationContent;
   } else if (active.value === 3) {
+    return chooseTransplantationContent;
+  } else if (active.value === 4) {
     return score;
   }
   return chooseContent;
@@ -191,7 +233,7 @@ const stepComponents = computed(() => {
 
 // Move to the next step
 const next = () => {
-  if (active.value < 3) {
+  if (active.value < 4) {
     active.value++;
   } else {
     active.value = 0; // Reset to the first step

@@ -61,7 +61,7 @@
               or <br /><em>click to upload</em>
             </div>
             <template #tip>
-              <div class="el-upload__tip">.vcf</div>
+              <div class="el-upload__tip">.vcf or .vcf.gz</div>
             </template>
           </el-upload>
 
@@ -96,7 +96,7 @@
               <br /><em>click to upload</em>
             </div>
             <template #tip>
-              <div class="el-upload__tip">.vcf</div>
+              <div class="el-upload__tip">.vcf or .vcf.gz</div>
             </template>
           </el-upload>
         </div>

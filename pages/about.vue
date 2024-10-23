@@ -16,7 +16,8 @@
             :gutter="20"
           >
             <el-col
-              :span="4"
+              :xs="6"
+              :sm="4"
               class="icon-col"
             >
               <Icon
@@ -25,11 +26,14 @@
                 size="2em"
               />
             </el-col>
-            <el-col :span="20">
+            <el-col
+              :xs="18"
+              :sm="20"
+            >
               <div class="text-wrapper">
                 <strong>We are open source!</strong>
               </div>
-              <div class="text-wrapper single-line">
+              <div class="text-wrapper github-link-wrapper">
                 <span>AlloPipe is available from</span>
                 <a
                   href="https://github.com/huguesrichard/Allopipe"
@@ -37,22 +41,41 @@
                   rel="noopener noreferrer"
                   class="github-link"
                 >https://github.com/huguesrichard/Allopipe</a>
+
               </div>
             </el-col>
           </el-row>
         </el-alert>
-        <p class="about-us__description">
-          AlloPipe provides new insights in alloreactivity and related immune
-          processes. Our tool offers potential for improving donor/recipient
-          matching and predicting alloreactive processes in transplantation.
-        </p>
+        <div>
+          <p class="about-us__description">
+            AlloPipe is a computational tool designed for large-scale genomic comparisons between two human samples
+            which has been developed in the context of transplantation - whether of Solid Organ Transplantation (SOT)
+            or Haematopoietic Cell Tranplantation (HCT).
+          </p>
 
-        <p class="about-us__description">
-          Our mission is to enhance transplantation outcomes by developing
-          innovative tools for better donor/recipient matching and personalized
-          immunosuppressive therapies.
-        </p>
-        <h2 class="about-us__subtitle">AlloPipe Features</h2>
+          <p class="about-us__description">
+            From high throughput sequencing data - such as Whole Exome Sequencing (WES) or Whole Genome Sequencing (WGS) -
+            AlloPipe returns the genomic differences between the donor and the recipient that meet the users specifications
+            in terms of:
+          </p>
+
+          <ul class="about-us__list">
+            <li>Protein impact (synonymous/non-synonymous polymorphisms, early stop codon)</li>
+            <li>Protein expression (restriction to a transcript list)</li>
+            <li>Genomic localisation (restriction to a bedfile)</li>
+          </ul>
+
+          <p class="about-us__description">
+            This tool therefore provides insights onto non-HLA polymorphisms potentially triggering indirect alloreactivity.
+          </p>
+
+          <p class="about-us__description">
+            Our mission is to enhance transplantation outcomes by developing
+            innovative tools for better donor/recipient matching and personalized
+            immunosuppressive therapies.
+          </p>
+        </div>
+        <h2 class="about-us__title">AlloPipe Features</h2>
         <el-timeline>
           <el-timeline-item
             size="large"
@@ -63,7 +86,7 @@
             {{ feature.description }}
           </el-timeline-item>
         </el-timeline>
-        <h2 class="about-us__subtitle">Our Team</h2>
+        <h2 class="about-us__title">Our Team</h2>
         <el-row :gutter="20">
           <el-col
             :span="8"
@@ -119,9 +142,9 @@ const teamMembers = [
     avatar: "/img/team/laurent-mesnard.jpg",
   },
   {
-    name: "Pierre Delaugère",
+    name: "Pierre Laville",
     affiliation: "Sorbonne Université",
-    avatar: "/img/team/pierre-delaugere.jpg",
+    avatar: "/img/team/pierre_laville.png",
   },
 ];
 
@@ -131,11 +154,11 @@ const allopipeFeatures = [
     description:
       "Compares exomes within two samples and returns the implied amino acid differences.",
   },
-  {
-    title: "Allo-Affinity",
-    description:
-      "Processes Allo-Count results to output the immunopeptidomes' differences within the pair.",
-  },
+  // {
+  //   title: "Allo-Affinity",
+  //   description:
+  //     "Processes Allo-Count results to output the immunopeptidomes' differences within the pair.",
+  // },
   {
     title: "Flexibility",
     description:
@@ -150,10 +173,59 @@ const allopipeFeatures = [
 </script>
 
 <style scoped>
-.github-alert {
-  font-size: 1.1em; /* Augmente légèrement la taille du texte */
+.el-timeline-item {
+  font-size: 1.1rem;
+  line-height: 1.6;
 }
 
+.el-timeline-item__timestamp {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #409eff;
+}
+
+.el-timeline-item__content {
+  color: #606266;
+  margin-top: 0.5rem;
+}
+.about-us__list {
+  margin: 0 0 2rem 2rem;
+  padding: 0;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.about-us__list li {
+  margin-bottom: 0.5rem;
+}
+
+.github-alert {
+  font-size: 1.1em;
+  margin-bottom: 2rem;
+}
+
+.text-wrapper {
+  line-height: 1.5;
+}
+
+.github-link-wrapper {
+  word-break: break-word;
+  white-space: normal;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.github-link {
+  font-weight: bold;
+  color: #67c23a;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.github-link:hover {
+  text-decoration: underline;
+}
 .text-wrapper {
   line-height: 1.5;
 }
@@ -169,16 +241,6 @@ const allopipeFeatures = [
   display: inline;
 }
 
-.github-link {
-  font-weight: bold;
-  color: #67c23a; /* Vert d'Element Plus */
-  text-decoration: none;
-  margin-left: 4px; /* Ajoute un petit espace entre le texte et le lien */
-}
-
-.github-link:hover {
-  text-decoration: underline;
-}
 .about-us {
   padding: 2rem 0;
 }

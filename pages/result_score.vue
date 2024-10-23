@@ -63,7 +63,7 @@
         v-if="sot == 'false'"
       >
         <el-col :span="24">
-          <h3>HSCT</h3>
+          <h3>HCT</h3>
           <el-alert
             title="Coming soon: expected AMS distribution for related pairs. We are open for collaborations on this topic."
             type="warning"
