@@ -168,6 +168,7 @@ async function handleFileUpload(field) {
       
       // Créer le chemin complet du fichier
       const filePath = join(path, field.filename);
+      console.log("filepath",filePath);
       
       // Écrire le fichier
       const fileStream = createWriteStream(filePath);
