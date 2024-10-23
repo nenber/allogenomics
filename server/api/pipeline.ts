@@ -2,6 +2,7 @@ import { createWriteStream, unlink } from "fs"; // Importez unlink pour supprime
 import { join } from "path";
 import { useRuntimeConfig } from "#imports";
 import { exec } from "child_process";
+import mkdirp from 'mkdirp'; // Assurez-vous d'avoir installé mkdirp: npm install mkdirp
 
 export default defineEventHandler(async (event) => {
   const formData = await readMultipartFormData(event);
@@ -141,29 +142,43 @@ function deleteFile(filePath) {
     });
   });
 }
-function handleFileUpload(field) {
+async function handleFileUpload(field) {
   if (field && field.filename) {
     let path = process.cwd();
+    
+    // Définir le chemin selon le type de fichier
     switch (field.name) {
       case "pairDonorFile":
-        path = join(path, "../uploads/pair/donor");
+        path = join(path, "../prod/uploads/pair/donor");
         break;
       case "pairRecipientFile":
-        path = join(path, "../uploads/pair/recipient");
+        path = join(path, "../prod/uploads/pair/recipient");
         break;
       case "cohortMergedFile":
-        path = join(path, "../uploads/cohort/merged");
+        path = join(path, "../prod/uploads/cohort/merged");
         break;
       case "cohortDonorRecipientListFile":
-        path = join(path, "../uploads/cohort/list");
+        path = join(path, "../prod/uploads/cohort/list");
         break;
     }
-    const filePath = join(path, field.filename);
-    const fileStream = createWriteStream(filePath);
-    fileStream.write(field.data);
-    fileStream.end();
-    return filePath;
-    //return `/uploads/${field.filename}`;
+
+    try {
+      // Créer le dossier s'il n'existe pas
+      await mkdirp.mkdirp(path);
+      
+      // Créer le chemin complet du fichier
+      const filePath = join(path, field.filename);
+      
+      // Écrire le fichier
+      const fileStream = createWriteStream(filePath);
+      fileStream.write(field.data);
+      fileStream.end();
+      
+      return filePath;
+    } catch (error) {
+      console.error(`Erreur lors de la création du dossier ou de l'écriture du fichier: ${error.message}`);
+      throw error;
+    }
   }
   return null;
 }
