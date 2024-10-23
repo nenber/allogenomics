@@ -191,6 +191,8 @@ const handleSubmitClick = async (f) => {
       method: "POST",
       body: formData,
     });
+    console.log("sample", form.value.sample);
+
     const result = await response.json();
 
     // Utilisation d'une expression régulière pour extraire le premier nombre trouvé dans le texte

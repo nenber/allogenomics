@@ -17,7 +17,7 @@
             class="text-large-light"
             style="font-size: 2.5rem;"
           >
-            Allogenomicsee
+            Allogenomics
           </NuxtLink>
         </el-menu-item>
         <div class="flex-grow" />

@@ -90,8 +90,8 @@ export default defineEventHandler(async (event) => {
   if (formValues["full"]) {
     command += ` -f`;
   }
-
-  if (formValues["sample"]) {
+  console.log("sample",formValues["sample"]);
+  if (formValues["sample"] == true) {
     command += ` ${pipelinePath}/tutorial/donor_annotated_VEP.vcf ${pipelinePath}/tutorial/recipient_annotated_VEP.vcf`;
   } else {
     filesUploadedPaths.forEach((index, item) => {
@@ -146,16 +146,16 @@ function handleFileUpload(field) {
     let path = process.cwd();
     switch (field.name) {
       case "pairDonorFile":
-        path = join(path, "public/uploads/pair/donor");
+        path = join(path, "../uploads/pair/donor");
         break;
       case "pairRecipientFile":
-        path = join(path, "public/uploads/pair/recipient");
+        path = join(path, "../uploads/pair/recipient");
         break;
       case "cohortMergedFile":
-        path = join(path, "public/uploads/cohort/merged");
+        path = join(path, "../uploads/cohort/merged");
         break;
       case "cohortDonorRecipientListFile":
-        path = join(path, "public/uploads/cohort/list");
+        path = join(path, "../uploads/cohort/list");
         break;
     }
     const filePath = join(path, field.filename);
