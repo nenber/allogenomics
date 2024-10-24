@@ -9,8 +9,10 @@ export default defineEventHandler(async (event) => {
   console.log(pipelinePath);
 
   const { result } = event.context.params;
+  console.log("result", result);
   const resultPath = path.resolve(`${pipelinePath}/output/runs/${result}`);
-  
+    console.log("resultPath", resultPath);
+
   // Liste des mots-clés pour filtrer les fichiers
   const keywords = ['D0', 'R0', 'mismatches', 'transcripts'];
   
