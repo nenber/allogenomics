@@ -96,7 +96,8 @@ export default defineEventHandler(async (event) => {
     command += ` ${pipelinePath}/tutorial/donor_annotated_VEP.vcf ${pipelinePath}/tutorial/recipient_annotated_VEP.vcf`;
   } else {
     filesUploadedPaths.forEach((index, item) => {
-      console.log("item", item[index]);
+      console.log("item index", item[index]);
+      console.log("item", item);
       command += ` ${item}`;
     });
   }
@@ -119,7 +120,7 @@ export default defineEventHandler(async (event) => {
   });
 
   // Suppression des fichiers uploadés
-  await Promise.all(filesUploadedPaths.map((filePath) => deleteFile(filePath)));
+  //await Promise.all(filesUploadedPaths.map((filePath) => deleteFile(filePath)));
 
   return {
     status: res.code == 200 ? "success" : "error",
@@ -175,7 +176,8 @@ async function handleFileUpload(field) {
       const fileStream = createWriteStream(filePath);
       fileStream.write(field.data);
       fileStream.end();
-      
+      console.log("filepath before return",filePath);
+
       return filePath;
     } catch (error) {
       console.error(`Erreur lors de la création du dossier ou de l'écriture du fichier: ${error.message}`);
