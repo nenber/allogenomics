@@ -34,6 +34,10 @@ export default defineEventHandler(async (event) => {
     
     // Filtrer les fichiers en fonction des mots-clés
     for (const file of files) {
+      console.log("file", file);
+      console.log(keywords.some(keyword => file.includes(keyword)));
+      
+      
       if (keywords.some(keyword => file.includes(keyword))) {
         const filePath = path.join(resultPath, file);
         
