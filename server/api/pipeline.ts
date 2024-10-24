@@ -33,12 +33,12 @@ export default defineEventHandler(async (event) => {
   };
   let filesUploadedPaths = [];
   // Parcourir les champs reçus dans le formulaire
-  formData?.forEach((field) => {
+  formData?.forEach(async (field) => {
     // Ignorer les champs de type fichier
     if (!field.filename) {
       formValues[field.name] = decodeBuffer(field.data);
     } else {
-      let p = handleFileUpload(field);
+      let p = await handleFileUpload(field);
       filesUploadedPaths.push(p);
     }
   });
