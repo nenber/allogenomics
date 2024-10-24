@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
 
   const { result } = event.context.params;
   console.log("result", result);
-  const resultPath = path.resolve(`${pipelinePath}/output/runs/${result}`);
+  const resultPath = path.resolve(`${pipelinePath}/output/runs/${result}/run_tables`);
     console.log("resultPath", resultPath);
 
   // Liste des mots-clés pour filtrer les fichiers

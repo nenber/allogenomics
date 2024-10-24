@@ -107,7 +107,9 @@ export default defineEventHandler(async (event) => {
   }
   command += ` rd`;
 
-  const res = await new Promise((resolve, reject) => {
+  let alreadyExists = await directoryExists(`${pipelinePath}/output/runs/${formValues["run_name"]}`);
+if(!alreadyExists) {
+   const res = await new Promise((resolve, reject) => {
     exec(command, (error, stdout, stderr) => {
       if (error) {
         console.error(`exec error: ${error}`);
@@ -132,8 +134,28 @@ export default defineEventHandler(async (event) => {
     message: res.message,
     data: res.value,
   };
+  }
+else {
+   return {
+    status:  "error",
+    code: 401,
+    message: "run_name already exists",
+    data: "",
+  };
+  }
+ 
 });
-
+async function directoryExists(directoryPath:string) {
+    try {
+        const stats = await fs.stat(directoryPath);
+        return stats.isDirectory();
+    } catch (error) {
+        if (error.code === 'ENOENT') {
+            return false;    // Le chemin n'existe pas
+        }
+        throw error;        // Une autre erreur s'est produite
+    }
+}
 // Fonction pour supprimer un fichier
 function deleteFile(filePath) {
   return new Promise((resolve, reject) => {
