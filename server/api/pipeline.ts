@@ -4,6 +4,7 @@ import { useRuntimeConfig } from "#imports";
 import { exec } from "child_process";
 import mkdirp from 'mkdirp'; // Assurez-vous d'avoir installé mkdirp: npm install mkdirp
 
+
 export default defineEventHandler(async (event) => {
   const formData = await readMultipartFormData(event);
   let is_pair = true;
@@ -107,8 +108,8 @@ export default defineEventHandler(async (event) => {
   }
   command += ` rd`;
 
-  let alreadyExists = await directoryExists(`${pipelinePath}/output/runs/${formValues["run_name"]}`);
-if(!alreadyExists) {
+//   let alreadyExists = await directoryExists(`${pipelinePath}/output/runs/${formValues["run_name"]}`);
+// if(!alreadyExists) {
    const res = await new Promise((resolve, reject) => {
     exec(command, (error, stdout, stderr) => {
       if (error) {
@@ -134,28 +135,28 @@ if(!alreadyExists) {
     message: res.message,
     data: res.value,
   };
-  }
-else {
-   return {
-    status:  "error",
-    code: 401,
-    message: "run_name already exists",
-    data: "",
-  };
-  }
+//   }
+// else {
+//    return {
+//     status:  "error",
+//     code: 401,
+//     message: "run_name already exists",
+//     data: "",
+//   };
+//   }
  
 });
-async function directoryExists(directoryPath:string) {
-    try {
-        const stats = await fs.stat(directoryPath);
-        return stats.isDirectory();
-    } catch (error) {
-        if (error.code === 'ENOENT') {
-            return false;    // Le chemin n'existe pas
-        }
-        throw error;        // Une autre erreur s'est produite
-    }
-}
+// async function directoryExists(directoryPath:string) {
+//     try {
+//         const stats = await fs.stat(directoryPath);
+//         return stats.isDirectory();
+//     } catch (error) {
+//         if (error.code === 'ENOENT') {
+//             return false;    // Le chemin n'existe pas
+//         }
+//         throw error;        // Une autre erreur s'est produite
+//     }
+// }
 // Fonction pour supprimer un fichier
 function deleteFile(filePath) {
   return new Promise((resolve, reject) => {
