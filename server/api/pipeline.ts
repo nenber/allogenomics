@@ -96,7 +96,7 @@ export default defineEventHandler(async (event) => {
     command += ` ${pipelinePath}/tutorial/donor_annotated_VEP.vcf ${pipelinePath}/tutorial/recipient_annotated_VEP.vcf`;
   } else {
     filesUploadedPaths.forEach((index, item) => {
-      console.log("item", item);
+      console.log("item", item[index]);
       command += ` ${item}`;
     });
   }
