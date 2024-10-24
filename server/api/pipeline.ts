@@ -96,7 +96,7 @@ export default defineEventHandler(async (event) => {
   }
 
   console.log("sample", formValues["sample"]);
-  if (formValues["sample"] == true) {
+  if (formValues["sample"] === true) {
     command += ` ${pipelinePath}/tutorial/donor_annotated_VEP.vcf ${pipelinePath}/tutorial/recipient_annotated_VEP.vcf`;
   } else {
     console.log("filesUploadedPaths", filesUploadedPaths.length);
