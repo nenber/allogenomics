@@ -31,17 +31,20 @@ export default defineEventHandler(async (event) => {
   const decodeBuffer = (buffer) => {
     return buffer.toString("utf-8");
   };
+
   let filesUploadedPaths = [];
-  // Parcourir les champs reçus dans le formulaire
-  formData?.forEach(async (field) => {
+
+  // Utilisation de for...of pour permettre l'usage de await
+  for (const field of formData || []) {
     // Ignorer les champs de type fichier
     if (!field.filename) {
       formValues[field.name] = decodeBuffer(field.data);
     } else {
       let p = await handleFileUpload(field);
+      console.log("p", p);
       filesUploadedPaths.push(p);
     }
-  });
+  }
 
   const runtimeConfig = useRuntimeConfig(event);
   const pipelinePath = runtimeConfig.public.PIPELINE;
@@ -91,13 +94,13 @@ export default defineEventHandler(async (event) => {
   if (formValues["full"]) {
     command += ` -f`;
   }
-  console.log("sample",formValues["sample"]);
+
+  console.log("sample", formValues["sample"]);
   if (formValues["sample"] == true) {
     command += ` ${pipelinePath}/tutorial/donor_annotated_VEP.vcf ${pipelinePath}/tutorial/recipient_annotated_VEP.vcf`;
   } else {
     console.log("filesUploadedPaths", filesUploadedPaths.length);
-    filesUploadedPaths.forEach((index, item) => {
-      console.log("item index", item[index]);
+    filesUploadedPaths.forEach((item) => {
       console.log("item", item);
       command += ` ${item}`;
     });
@@ -130,6 +133,7 @@ export default defineEventHandler(async (event) => {
     data: res.value,
   };
 });
+
 // Fonction pour supprimer un fichier
 function deleteFile(filePath) {
   return new Promise((resolve, reject) => {
@@ -145,10 +149,12 @@ function deleteFile(filePath) {
     });
   });
 }
+
+// Fonction pour gérer le téléchargement des fichiers
 async function handleFileUpload(field) {
   if (field && field.filename) {
     let path = process.cwd();
-    
+
     // Définir le chemin selon le type de fichier
     switch (field.name) {
       case "pairDonorFile":
@@ -168,20 +174,22 @@ async function handleFileUpload(field) {
     try {
       // Créer le dossier s'il n'existe pas
       await mkdirp.mkdirp(path);
-      
+
       // Créer le chemin complet du fichier
       const filePath = join(path, field.filename);
-      console.log("filepath",filePath);
-      
+      console.log("filepath", filePath);
+
       // Écrire le fichier
       const fileStream = createWriteStream(filePath);
       fileStream.write(field.data);
       fileStream.end();
-      console.log("filepath before return",filePath);
+      console.log("filepath before return", filePath);
 
       return filePath;
     } catch (error) {
-      console.error(`Erreur lors de la création du dossier ou de l'écriture du fichier: ${error.message}`);
+      console.error(
+        `Erreur lors de la création du dossier ou de l'écriture du fichier: ${error.message}`
+      );
       throw error;
     }
   }
